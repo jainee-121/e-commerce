@@ -9,7 +9,7 @@ class User(Base):
     name = Column(String(255),index=True)
     email = Column(String(255), unique=True, index=True)
     todos = relationship("Todo",back_populates="owner")
-    is_active = Column(Boolean,default=False)
+    is_active = Column(Boolean,default=True)
 
 
 

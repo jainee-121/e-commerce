@@ -5,7 +5,7 @@ class TodoBase(BaseModel):
     title:str
     description:str|None=None
 
-class TodoCreate(BaseModel):
+class TodoCreate(TodoBase):
     pass
 
 class Todo(TodoBase):
