@@ -21,7 +21,6 @@ def get_todos(db:Session,skip:int=0,limit:int=100):
     return db.query(models.Todo).offset(skip).limit(limit).all()
 
 def create_user_todo(db:Session,user_id : int,todo:schemas.TodoCreate):
-    print(todo.model_dump())
     db_todo=models.Todo(**todo.model_dump(),owner_id=user_id)
     db.add(db_todo)
     db.commit()

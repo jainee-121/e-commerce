@@ -37,7 +37,6 @@ def get_user(user_id:int, db:Session=Depends(get_db)):
 
 @app.post("/users/{user_id}/todos/",response_model=schemas.Todo)
 def post_todo_for_user(user_id:int, todo:schemas.TodoCreate, db:Session=Depends(get_db)):
-    print(todo.dict())
     todos=crud.create_user_todo(db,user_id=user_id, todo=todo)
     return todos
 
