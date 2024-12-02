@@ -1,17 +1,31 @@
 from pydantic import BaseModel
+from typing import List
 
 
-class TodoBase(BaseModel):
+class CategoryBase(BaseModel):
+    name:str
+
+class CategoryCreate(CategoryBase):
+    pass
+
+class Category(CategoryBase):
+    id:int
+
+    class config:
+        orm_node=True
+
+class ProductBase(BaseModel):
     title:str
     description:str|None=None
 
-class TodoCreate(TodoBase):
+class ProductCreate(ProductBase):
     pass
 
-class Todo(TodoBase):
+class Product(ProductBase):
     id:int 
-    owner_id:int
-
+    user_id:int
+    category_id:int
+    
     class config:
         orm_node=True
 
@@ -25,8 +39,9 @@ class UserCreate(UserBase):
 class User(UserBase):
     id:int
     is_active:bool
-    todos:list[Todo]=[]
 
     class config:
         orm_model=True
+
+
 

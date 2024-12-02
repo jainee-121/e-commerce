@@ -17,12 +17,25 @@ def create_user(db:Session,user:schemas.UserCreate):
     db.refresh(db_user)
     return db_user
 
-def get_todos(db:Session,skip:int=0,limit:int=100):
-    return db.query(models.Todo).offset(skip).limit(limit).all()
+def get_products(db:Session,skip:int=0,limit:int=100):
+    return db.query(models.Product).offset(skip).limit(limit).all()
 
-def create_user_todo(db:Session,user_id : int,todo:schemas.TodoCreate):
-    db_todo=models.Todo(**todo.model_dump(),owner_id=user_id)
-    db.add(db_todo)
+def create_product_for_user(db:Session,user_id : int,category_id:int,product:schemas.ProductCreate):
+    db_product=models.Product(**product.model_dump(),user_id=user_id,category_id=category_id)
+    db.add(db_product)
     db.commit()
-    db.refresh(db_todo)
-    return db_todo
+    db.refresh(db_product)
+    return db_product
+
+def get_single_category(db:Session,category_id:int):
+    return db.query(models.Category).filter(models.Category.id==category_id).first()
+
+def get_category(db:Session,skip:int=0,limit:int=100):
+    return db.query(models.Category).offset(skip).limit(limit).all()
+
+def create_category(db:Session,category=schemas.CategoryCreate):
+    db_category=models.Category(**category.model_dump())
+    db.add(db_category)
+    db.commit()
+    db.refresh(db_category)
+    return db_category
