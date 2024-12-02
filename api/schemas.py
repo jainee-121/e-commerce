@@ -13,11 +13,15 @@ class Category(CategoryBase):
     class config:
         orm_node=True
 
+
 class ProductBase(BaseModel):
     title:str
     description:str|None=None
 
 class ProductCreate(ProductBase):
+    pass
+
+class ProductUpdate(ProductBase):
     pass
 
 class Product(ProductBase):
@@ -28,12 +32,14 @@ class Product(ProductBase):
     class config:
         orm_node=True
 
+
 class UserBase(BaseModel):
     email:str
     name:str
+    role: str
 
 class UserCreate(UserBase):
-    pass
+    password: str
 
 class User(UserBase):
     id:int
@@ -41,6 +47,15 @@ class User(UserBase):
 
     class config:
         orm_model=True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email: str | None = None
+
 
 
 
