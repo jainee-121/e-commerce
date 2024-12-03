@@ -46,7 +46,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
 
 
 # Product Routes
-@app.post("/users/{user_id}/products/", response_model=schemas.Product, status_code=status.HTTP_201_CREATED)
+@app.post("/users/{user_id}/products/", response_model=schemas.Product)
 def create_product_for_user(category_id: int, product: schemas.ProductCreate,db: Session = Depends(get_db),current_user: schemas.User = Depends(auth.require_role("admin"))):
     db_cat=crud.get_single_category(db,category_id=category_id)
     if not (db_cat):
