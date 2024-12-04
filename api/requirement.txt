@@ -1,0 +1,11 @@
+dotenv
+fastapi
+fastapi_mail
+ipdb
+jose 
+jwt
+passlib
+pydantic
+pymsql
+starlette
+uvicorn
