@@ -9,7 +9,7 @@ class User(Base):
     name = Column(String(255),index=True)
     email = Column(String(255), unique=True, index=True)
     hashed_password = Column(String(250), nullable=False)  
-    role=Column(String(250),unique=True,index=True)
+    role=Column(String(250),index=True)
     is_active = Column(Boolean,default=True)
 
 class Product(Base):

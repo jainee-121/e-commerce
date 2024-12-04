@@ -1,16 +1,20 @@
 from datetime import timedelta
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status,BackgroundTasks
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
-from . import crud, models, schemas, auth
+from . import crud, models, schemas, auth, mail
 from .database import engine,get_db
+from .middleware import add_cors_middleware
 
 models.Base.metadata.create_all(bind=engine)
 
+
 app = FastAPI()
 
+add_cors_middleware(app)
+
 # User Routes
-@app.post("/token", response_model=schemas.Token)
+@app.post("/token/", response_model=schemas.Token)
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = crud.authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -26,10 +30,11 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.post("/users/", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+async def create_user(user: schemas.UserCreate,background:BackgroundTasks,db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, user_email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
+    background.add_task(mail.simple_send,email=user.email)
     return crud.create_user(db=db, user=user)
 
 @app.get("/users/", response_model=list[schemas.User])
@@ -73,3 +78,4 @@ def list_categories(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
 def get_current_user_info(
     current_user: schemas.User = Depends(auth.get_current_user)):
     return current_user
+
