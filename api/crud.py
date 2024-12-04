@@ -27,7 +27,6 @@ def create_user(db:Session,user:schemas.UserCreate):
     return db_user
 
 def authenticate_user(db: Session, email: str, password: str):
-    # import ipdb;ipdb.set_trace()
     user = get_user_by_email(db, email)
     if not user or not auth.verify_password(password, user.hashed_password):
         return False
