@@ -1,11 +1,11 @@
-dotenv
 fastapi
 fastapi_mail
 ipdb
-jose 
-jwt
+python-jose
 passlib
 pydantic
-pymsql
 starlette
 uvicorn
+pymysql
+sqlalchemy
+python-multipart

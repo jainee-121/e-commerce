@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Union
-from jose import JWTError, jwt
+from jose import JWTError, jwt 
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
